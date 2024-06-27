@@ -1,25 +1,34 @@
 var game;
-window.onload = function() {
+window.onload = function () {
     game = new Phaser.Game(1024, 768, Phaser.CANVAS, 'game');
-    game.state.add("boot",Boot);
-    game.state.add("loading",Loading);
-    game.state.add("main",Main);
+    game.state.add("boot", Boot);
+    game.state.add("loading", Loading);
+    game.state.add("main", Main);
     game.state.start('boot');
 };
 
 // 根场景
-function Boot(){
-    this.preload = function() {
+function Boot() {
+    this.preload = function () {
         game.load.spritesheet('loading', 'assets/loading.png', 80, 24);
+        game.input.maxPointers = 2;
     };
-    this.create = function() {
+    this.create = function () {
         game.state.start('loading');
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.pageAlignHorizontally = true;
+        game.scale.pageAlignVertically = true;
+        game.scale.setScreenSize(true);
+    }
+    this.gameResized = function () {
+        game.scale.setGameSize(1024, 768); // 根据需要设置游戏的逻辑尺寸
+        game.camera.setSize(game.scale.gameSize.width, game.scale.gameSize.height);
     }
 }
 
 // 加载游戏资源
-function Loading(){
-    this.preload = function() {
+function Loading() {
+    this.preload = function () {
         // 资源加载动画
         loadingSprite = game.add.sprite(200, 150, 'loading');
         loadingSprite.animations.add('loadingplay', [0, 1, 2], 5, true);
@@ -178,7 +187,7 @@ function Loading(){
         game.load.image('water', 'assets/water.png');
 
     };
-    this.create = function() {
+    this.create = function () {
 
         game.state.start('main');
     }
@@ -190,34 +199,34 @@ function Main() {
     // 配置文件
     var config = {
         tools: [
-            {x: 150, y: 0, tid: 0, key: "extension"},
-            {x: 250, y: 0, tid: 1, key: "store"},
-            {x: 350, y: 0, tid: 2, key: "warehouse"},
-            {x: 450, y: 0, tid: 3, key: "sow"},
-            {x: 550, y: 0, tid: 4, key: "watering"},
-            {x: 650, y: 0, tid: 5, key: "shovel"},
-            {x: 750, y: 0, tid: 6, key: "harvest"}
+            { x: 150, y: 0, tid: 0, key: "extension" },
+            { x: 250, y: 0, tid: 1, key: "store" },
+            { x: 350, y: 0, tid: 2, key: "warehouse" },
+            { x: 450, y: 0, tid: 3, key: "sow" },
+            { x: 550, y: 0, tid: 4, key: "watering" },
+            { x: 650, y: 0, tid: 5, key: "shovel" },
+            { x: 750, y: 0, tid: 6, key: "harvest" }
         ],
         soil: [
-            {x: 50, y: 420, key: 'soil_1'},
-            {x: 155, y: 365, key: 'soil_1'}, // 105  -55
-            {x: 260, y: 310, key: 'soil_1'},
+            { x: 50, y: 420, key: 'soil_1' },
+            { x: 155, y: 365, key: 'soil_1' }, // 105  -55
+            { x: 260, y: 310, key: 'soil_1' },
 
-            {x: 160, y: 480, key: 'soil_1'},  // 110 60
-            {x: 265, y: 425, key: 'soil_1'},
-            {x: 370, y: 370, key: 'soil_1'},
+            { x: 160, y: 480, key: 'soil_1' },  // 110 60
+            { x: 265, y: 425, key: 'soil_1' },
+            { x: 370, y: 370, key: 'soil_1' },
 
-            {x: 270, y: 540, key: 'soil_1'},
-            {x: 375, y: 485, key: 'soil_1'},
-            {x: 480, y: 430, key: 'soil_1'},
+            { x: 270, y: 540, key: 'soil_1' },
+            { x: 375, y: 485, key: 'soil_1' },
+            { x: 480, y: 430, key: 'soil_1' },
 
-            {x: 380, y: 600, key: 'soil_1'},
-            {x: 485, y: 545, key: 'soil_1'},
-            {x: 590, y: 490, key: 'soil_1'},
+            { x: 380, y: 600, key: 'soil_1' },
+            { x: 485, y: 545, key: 'soil_1' },
+            { x: 590, y: 490, key: 'soil_1' },
 
-            {x: 490, y: 660, key: 'soil_1'},
-            {x: 595, y: 605, key: 'soil_1'},
-            {x: 700, y: 550, key: 'soil_1'}
+            { x: 490, y: 660, key: 'soil_1' },
+            { x: 595, y: 605, key: 'soil_1' },
+            { x: 700, y: 550, key: 'soil_1' }
         ],
         crops: {
             1: {
@@ -227,11 +236,11 @@ function Main() {
                 sale_price: 50,
                 harvest_num: 1,
                 process: [
-                    {time: 2, x: 0, y: -10, key: "seed"},
-                    {time: 2, x: 0, y: -30, key: "radish_1"},
-                    {time: 2, x: 0, y: -30, key: "radish_2"},
-                    {time: 2, x: 0, y: -30, key: "radish_3"},
-                    {time: 2, x: 0, y: -30, key: "radish_4"}
+                    { time: 2, x: 0, y: -10, key: "seed" },
+                    { time: 2, x: 0, y: -30, key: "radish_1" },
+                    { time: 2, x: 0, y: -30, key: "radish_2" },
+                    { time: 2, x: 0, y: -30, key: "radish_3" },
+                    { time: 2, x: 0, y: -30, key: "radish_4" }
                 ]
             },
             2: {
@@ -241,11 +250,11 @@ function Main() {
                 sale_price: 20,
                 harvest_num: 1,
                 process: [
-                    {time: 2, x: 0, y: -10, key: "seed"},
-                    {time: 2, x: 0, y: -30, key: "huradish_1"},
-                    {time: 2, x: 0, y: -30, key: "huradish_2"},
-                    {time: 2, x: 0, y: -30, key: "huradish_3"},
-                    {time: 2, x: 0, y: -30, key: "huradish_4"}
+                    { time: 2, x: 0, y: -10, key: "seed" },
+                    { time: 2, x: 0, y: -30, key: "huradish_1" },
+                    { time: 2, x: 0, y: -30, key: "huradish_2" },
+                    { time: 2, x: 0, y: -30, key: "huradish_3" },
+                    { time: 2, x: 0, y: -30, key: "huradish_4" }
                 ]
             },
             3: {
@@ -255,12 +264,12 @@ function Main() {
                 sale_price: 15,
                 harvest_num: 5,
                 process: [
-                    {time: 2, x: 0, y: -10, key: "seed"},
-                    {time: 2, x: 0, y: -30, key: "potato_1"},
-                    {time: 2, x: 0, y: -30, key: "potato_2"},
-                    {time: 2, x: 0, y: -30, key: "potato_3"},
-                    {time: 2, x: 0, y: -30, key: "potato_4"},
-                    {time: 2, x: 0, y: -30, key: "potato_5"}
+                    { time: 2, x: 0, y: -10, key: "seed" },
+                    { time: 2, x: 0, y: -30, key: "potato_1" },
+                    { time: 2, x: 0, y: -30, key: "potato_2" },
+                    { time: 2, x: 0, y: -30, key: "potato_3" },
+                    { time: 2, x: 0, y: -30, key: "potato_4" },
+                    { time: 2, x: 0, y: -30, key: "potato_5" }
                 ]
             },
             4: {
@@ -270,12 +279,12 @@ function Main() {
                 sale_price: 10,
                 harvest_num: 15,
                 process: [
-                    {time: 2, x: 0, y: -10, key: "seed"},
-                    {time: 2, x: 0, y: -30, key: "peas_1"},
-                    {time: 2, x: 0, y: -30, key: "peas_2"},
-                    {time: 2, x: 0, y: -30, key: "peas_3"},
-                    {time: 2, x: 0, y: -30, key: "peas_4"},
-                    {time: 2, x: 0, y: -30, key: "peas_5"}
+                    { time: 2, x: 0, y: -10, key: "seed" },
+                    { time: 2, x: 0, y: -30, key: "peas_1" },
+                    { time: 2, x: 0, y: -30, key: "peas_2" },
+                    { time: 2, x: 0, y: -30, key: "peas_3" },
+                    { time: 2, x: 0, y: -30, key: "peas_4" },
+                    { time: 2, x: 0, y: -30, key: "peas_5" }
                 ]
             },
             5: {
@@ -285,12 +294,12 @@ function Main() {
                 sale_price: 25,
                 harvest_num: 5,
                 process: [
-                    {time: 2, x: 0, y: -10, key: "seed"},
-                    {time: 2, x: 0, y: -30, key: "pepper_1"},
-                    {time: 2, x: 0, y: -30, key: "pepper_2"},
-                    {time: 2, x: 0, y: -30, key: "pepper_3"},
-                    {time: 2, x: 0, y: -30, key: "pepper_4"},
-                    {time: 2, x: 0, y: -30, key: "pepper_5"}
+                    { time: 2, x: 0, y: -10, key: "seed" },
+                    { time: 2, x: 0, y: -30, key: "pepper_1" },
+                    { time: 2, x: 0, y: -30, key: "pepper_2" },
+                    { time: 2, x: 0, y: -30, key: "pepper_3" },
+                    { time: 2, x: 0, y: -30, key: "pepper_4" },
+                    { time: 2, x: 0, y: -30, key: "pepper_5" }
                 ]
             },
             6: {
@@ -300,12 +309,12 @@ function Main() {
                 sale_price: 30,
                 harvest_num: 5,
                 process: [
-                    {time: 5, x: 0, y: -10, key: "seed"},
-                    {time: 5, x: 0, y: -30, key: "corn_1"},
-                    {time: 5, x: 0, y: -30, key: "corn_2"},
-                    {time: 5, x: 0, y: -30, key: "corn_3"},
-                    {time: 5, x: 0, y: -30, key: "corn_4"},
-                    {time: 5, x: 0, y: -30, key: "corn_5"}
+                    { time: 5, x: 0, y: -10, key: "seed" },
+                    { time: 5, x: 0, y: -30, key: "corn_1" },
+                    { time: 5, x: 0, y: -30, key: "corn_2" },
+                    { time: 5, x: 0, y: -30, key: "corn_3" },
+                    { time: 5, x: 0, y: -30, key: "corn_4" },
+                    { time: 5, x: 0, y: -30, key: "corn_5" }
                 ]
             },
             7: {
@@ -315,12 +324,12 @@ function Main() {
                 sale_price: 50,
                 harvest_num: 5,
                 process: [
-                    {time: 2, x: 0, y: -10, key: "seed"},
-                    {time: 2, x: 0, y: -30, key: "eggplant_1"},
-                    {time: 2, x: 0, y: -30, key: "eggplant_2"},
-                    {time: 2, x: 0, y: -30, key: "eggplant_3"},
-                    {time: 2, x: 0, y: -30, key: "eggplant_4"},
-                    {time: 2, x: 0, y: -30, key: "eggplant_5"}
+                    { time: 2, x: 0, y: -10, key: "seed" },
+                    { time: 2, x: 0, y: -30, key: "eggplant_1" },
+                    { time: 2, x: 0, y: -30, key: "eggplant_2" },
+                    { time: 2, x: 0, y: -30, key: "eggplant_3" },
+                    { time: 2, x: 0, y: -30, key: "eggplant_4" },
+                    { time: 2, x: 0, y: -30, key: "eggplant_5" }
                 ]
             },
             8: {
@@ -330,12 +339,12 @@ function Main() {
                 sale_price: 40,
                 harvest_num: 8,
                 process: [
-                    {time: 2, x: 0, y: -10, key: "seed"},
-                    {time: 2, x: 0, y: -30, key: "tomato_1"},
-                    {time: 2, x: 0, y: -30, key: "tomato_2"},
-                    {time: 2, x: 0, y: -30, key: "tomato_3"},
-                    {time: 2, x: 0, y: -30, key: "tomato_4"},
-                    {time: 2, x: 0, y: -30, key: "tomato_5"}
+                    { time: 2, x: 0, y: -10, key: "seed" },
+                    { time: 2, x: 0, y: -30, key: "tomato_1" },
+                    { time: 2, x: 0, y: -30, key: "tomato_2" },
+                    { time: 2, x: 0, y: -30, key: "tomato_3" },
+                    { time: 2, x: 0, y: -30, key: "tomato_4" },
+                    { time: 2, x: 0, y: -30, key: "tomato_5" }
                 ]
             },
             9: {
@@ -345,12 +354,12 @@ function Main() {
                 sale_price: 100,
                 harvest_num: 3,
                 process: [
-                    {time: 2, x: 0, y: -10, key: "seed"},
-                    {time: 2, x: 0, y: -30, key: "pumpkin_1"},
-                    {time: 2, x: 0, y: -30, key: "pumpkin_2"},
-                    {time: 2, x: 0, y: -30, key: "pumpkin_3"},
-                    {time: 2, x: 0, y: -30, key: "pumpkin_4"},
-                    {time: 2, x: 0, y: -30, key: "pumpkin_5"}
+                    { time: 2, x: 0, y: -10, key: "seed" },
+                    { time: 2, x: 0, y: -30, key: "pumpkin_1" },
+                    { time: 2, x: 0, y: -30, key: "pumpkin_2" },
+                    { time: 2, x: 0, y: -30, key: "pumpkin_3" },
+                    { time: 2, x: 0, y: -30, key: "pumpkin_4" },
+                    { time: 2, x: 0, y: -30, key: "pumpkin_5" }
                 ]
             },
             10: {
@@ -360,12 +369,12 @@ function Main() {
                 sale_price: 20,
                 harvest_num: 60,
                 process: [
-                    {time: 2, x: 0, y: -10, key: "seed"},
-                    {time: 2, x: 0, y: -30, key: "peach_1"},
-                    {time: 2, x: 0, y: -30, key: "peach_2"},
-                    {time: 2, x: 0, y: -30, key: "peach_3"},
-                    {time: 2, x: 0, y: -30, key: "peach_4"},
-                    {time: 2, x: 0, y: -30, key: "peach_5"}
+                    { time: 2, x: 0, y: -10, key: "seed" },
+                    { time: 2, x: 0, y: -30, key: "peach_1" },
+                    { time: 2, x: 0, y: -30, key: "peach_2" },
+                    { time: 2, x: 0, y: -30, key: "peach_3" },
+                    { time: 2, x: 0, y: -30, key: "peach_4" },
+                    { time: 2, x: 0, y: -30, key: "peach_5" }
                 ]
             },
             11: {
@@ -375,12 +384,12 @@ function Main() {
                 sale_price: 800,
                 harvest_num: 3,
                 process: [
-                    {time: 2, x: 0, y: -10, key: "seed"},
-                    {time: 2, x: 0, y: -30, key: "watermelon_1"},
-                    {time: 2, x: 0, y: -30, key: "watermelon_2"},
-                    {time: 2, x: 0, y: -30, key: "watermelon_3"},
-                    {time: 2, x: 0, y: -30, key: "watermelon_4"},
-                    {time: 2, x: 0, y: -30, key: "watermelon_5"}
+                    { time: 2, x: 0, y: -10, key: "seed" },
+                    { time: 2, x: 0, y: -30, key: "watermelon_1" },
+                    { time: 2, x: 0, y: -30, key: "watermelon_2" },
+                    { time: 2, x: 0, y: -30, key: "watermelon_3" },
+                    { time: 2, x: 0, y: -30, key: "watermelon_4" },
+                    { time: 2, x: 0, y: -30, key: "watermelon_5" }
                 ]
             },
             12: {
@@ -390,12 +399,12 @@ function Main() {
                 sale_price: 50,
                 harvest_num: 20,
                 process: [
-                    {time: 2, x: 0, y: -10, key: "seed"},
-                    {time: 2, x: 0, y: -30, key: "strawberry_1"},
-                    {time: 2, x: 0, y: -30, key: "strawberry_2"},
-                    {time: 2, x: 0, y: -30, key: "strawberry_3"},
-                    {time: 2, x: 0, y: -30, key: "strawberry_4"},
-                    {time: 2, x: 0, y: -30, key: "strawberry_5"}
+                    { time: 2, x: 0, y: -10, key: "seed" },
+                    { time: 2, x: 0, y: -30, key: "strawberry_1" },
+                    { time: 2, x: 0, y: -30, key: "strawberry_2" },
+                    { time: 2, x: 0, y: -30, key: "strawberry_3" },
+                    { time: 2, x: 0, y: -30, key: "strawberry_4" },
+                    { time: 2, x: 0, y: -30, key: "strawberry_5" }
                 ]
             },
             13: {
@@ -405,13 +414,13 @@ function Main() {
                 sale_price: 50,
                 harvest_num: 50,
                 process: [
-                    {time: 5, x: 0, y: -10, key: "seed"},
-                    {time: 5, x: 0, y: -30, key: "banana_1"},
-                    {time: 5, x: 0, y: -30, key: "banana_2"},
-                    {time: 5, x: 0, y: -30, key: "banana_3"},
-                    {time: 5, x: 0, y: -30, key: "banana_4"},
-                    {time: 5, x: 0, y: -30, key: "banana_5"},
-                    {time: 5, x: 0, y: -30, key: "banana_6"}
+                    { time: 5, x: 0, y: -10, key: "seed" },
+                    { time: 5, x: 0, y: -30, key: "banana_1" },
+                    { time: 5, x: 0, y: -30, key: "banana_2" },
+                    { time: 5, x: 0, y: -30, key: "banana_3" },
+                    { time: 5, x: 0, y: -30, key: "banana_4" },
+                    { time: 5, x: 0, y: -30, key: "banana_5" },
+                    { time: 5, x: 0, y: -30, key: "banana_6" }
                 ]
             },
             14: {
@@ -421,13 +430,13 @@ function Main() {
                 sale_price: 1500,
                 harvest_num: 1,
                 process: [
-                    {time: 2, x: 0, y: -10, key: "seed"},
-                    {time: 2, x: 0, y: -30, key: "pineapple_1"},
-                    {time: 2, x: 0, y: -30, key: "pineapple_2"},
-                    {time: 2, x: 0, y: -30, key: "pineapple_3"},
-                    {time: 2, x: 0, y: -30, key: "pineapple_4"},
-                    {time: 2, x: 0, y: -30, key: "pineapple_5"},
-                    {time: 2, x: 0, y: -30, key: "pineapple_6"}
+                    { time: 2, x: 0, y: -10, key: "seed" },
+                    { time: 2, x: 0, y: -30, key: "pineapple_1" },
+                    { time: 2, x: 0, y: -30, key: "pineapple_2" },
+                    { time: 2, x: 0, y: -30, key: "pineapple_3" },
+                    { time: 2, x: 0, y: -30, key: "pineapple_4" },
+                    { time: 2, x: 0, y: -30, key: "pineapple_5" },
+                    { time: 2, x: 0, y: -30, key: "pineapple_6" }
                 ]
             },
             15: {
@@ -437,50 +446,50 @@ function Main() {
                 sale_price: 30,
                 harvest_num: 100,
                 process: [
-                    {time: 5, x: 0, y: -10, key: "seed"},
-                    {time: 5, x: 0, y: -30, key: "cherry_1"},
-                    {time: 5, x: 0, y: -30, key: "cherry_2"},
-                    {time: 5, x: 0, y: -30, key: "cherry_3"},
-                    {time: 5, x: 0, y: -30, key: "cherry_4"},
-                    {time: 5, x: 0, y: -30, key: "cherry_5"},
-                    {time: 5, x: 0, y: -30, key: "cherry_6"}
+                    { time: 5, x: 0, y: -10, key: "seed" },
+                    { time: 5, x: 0, y: -30, key: "cherry_1" },
+                    { time: 5, x: 0, y: -30, key: "cherry_2" },
+                    { time: 5, x: 0, y: -30, key: "cherry_3" },
+                    { time: 5, x: 0, y: -30, key: "cherry_4" },
+                    { time: 5, x: 0, y: -30, key: "cherry_5" },
+                    { time: 5, x: 0, y: -30, key: "cherry_6" }
                 ]
             }
         },
-        store: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+        store: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
         bags: [
-            {sid: 1, num: 2},
-            {sid: 2, num: 3},
-            {sid: 3, num: 0},
-            {sid: 4, num: 0},
-            {sid: 5, num: 0},
-            {sid: 6, num: 0},
-            {sid: 7, num: 0},
-            {sid: 8, num: 0},
-            {sid: 9, num: 0},
-            {sid: 10, num: 0},
-            {sid: 11, num: 0},
-            {sid: 12, num: 0},
-            {sid: 13, num: 0},
-            {sid: 14, num: 0},
-            {sid: 15, num: 0}
+            { sid: 1, num: 2 },
+            { sid: 2, num: 3 },
+            { sid: 3, num: 0 },
+            { sid: 4, num: 0 },
+            { sid: 5, num: 0 },
+            { sid: 6, num: 0 },
+            { sid: 7, num: 0 },
+            { sid: 8, num: 0 },
+            { sid: 9, num: 0 },
+            { sid: 10, num: 0 },
+            { sid: 11, num: 0 },
+            { sid: 12, num: 0 },
+            { sid: 13, num: 0 },
+            { sid: 14, num: 0 },
+            { sid: 15, num: 0 }
         ],
         sow: [
-            {sid: 1, num: 2},
-            {sid: 2, num: 0},
-            {sid: 3, num: 0},
-            {sid: 4, num: 0},
-            {sid: 5, num: 0},
-            {sid: 6, num: 0},
-            {sid: 7, num: 0},
-            {sid: 8, num: 0},
-            {sid: 9, num: 0},
-            {sid: 10, num: 0},
-            {sid: 11, num: 0},
-            {sid: 12, num: 0},
-            {sid: 13, num: 0},
-            {sid: 14, num: 0},
-            {sid: 15, num: 0}
+            { sid: 1, num: 2 },
+            { sid: 2, num: 0 },
+            { sid: 3, num: 0 },
+            { sid: 4, num: 0 },
+            { sid: 5, num: 0 },
+            { sid: 6, num: 0 },
+            { sid: 7, num: 0 },
+            { sid: 8, num: 0 },
+            { sid: 9, num: 0 },
+            { sid: 10, num: 0 },
+            { sid: 11, num: 0 },
+            { sid: 12, num: 0 },
+            { sid: 13, num: 0 },
+            { sid: 14, num: 0 },
+            { sid: 15, num: 0 }
         ]
     };
 
@@ -501,9 +510,9 @@ function Main() {
 
         game.add.image(0, 0, 'bg');
 
-        var ifont = {fontSize:'20px',fill:'#f00'};
-        game.add.text(game.width-160, 20, "money：",ifont);
-        moneyText = game.add.text(game.width-80, 20, money,ifont);
+        var ifont = { fontSize: '20px', fill: '#f00' };
+        game.add.text(game.width - 160, 20, "money：", ifont);
+        moneyText = game.add.text(game.width - 80, 20, money, ifont);
 
         // 工具栏展示
         var tools = game.add.sprite(140, 0, 'progress2');
@@ -532,7 +541,7 @@ function Main() {
             temp.events.onInputDown.add(this.solidClicked, this);
             temp.sid = i;
             temp.crops = null;
-            solidGroup.push({soil:temp, crops:null, status:1})
+            solidGroup.push({ soil: temp, crops: null, status: 1 })
         }
         this.soilChange(0, 2);
 
@@ -562,25 +571,25 @@ function Main() {
     // 土地点击事件
     this.solidClicked = function (sprite) {
         box.visible = false;
-        if(saleDetail){
+        if (saleDetail) {
             saleDetail.kill();
         }
         var solid = solidGroup[sprite.sid];
 
-        if(solid.status == 1 && nowTools){
+        if (solid.status == 1 && nowTools) {
             this.showMessage(sprite.x, sprite.y, "该土地未开垦！");
             return;
         }
         // 判断操作类型
-        switch(nowTools){
+        switch (nowTools) {
             case 0: // 扩建
-                if(solid.status != 1){
+                if (solid.status != 1) {
                     this.showMessage(sprite.x, sprite.y, "无法操作！");
                     return;
                 }
                 var needNum = sprite.sid * 1000;
-                if(money < needNum){
-                    this.showMessage(sprite.x, sprite.y, "金币不够！需要"+needNum);
+                if (money < needNum) {
+                    this.showMessage(sprite.x, sprite.y, "金币不够！需要" + needNum);
                     return;
                 }
                 money = money - needNum;
@@ -590,7 +599,7 @@ function Main() {
                 this.showMessage(sprite.x, sprite.y, "扩建成功！");
                 break;
             case 3: // 播种
-                if(solid.status == 2){
+                if (solid.status == 2) {
                     this.showMessage(sprite.x, sprite.y, "请先浇水！");
                     return;
                 }
@@ -633,44 +642,44 @@ function Main() {
                 }
                 break;
             case 4: // 浇水
-                if(solid.status != 2){
+                if (solid.status != 2) {
                     this.showMessage(sprite.x, sprite.y, "该土地无需浇水！");
                     return;
                 }
                 this.soilChange(sprite.sid, 3);
                 // 浇水动画
-                var temp = game.add.sprite(solid.soil.x+60, solid.soil.y-20, "water");
-                var tween = game.add.tween(temp).to( { y: solid.soil.y+20 }, 500, "Linear", true).onComplete.add(function(){
+                var temp = game.add.sprite(solid.soil.x + 60, solid.soil.y - 20, "water");
+                var tween = game.add.tween(temp).to({ y: solid.soil.y + 20 }, 500, "Linear", true).onComplete.add(function () {
                     temp.kill();
                 });
 
                 break;
             case 5: // 除草
-                if(!solid.crops || solid.crops.sid){
+                if (!solid.crops || solid.crops.sid) {
                     this.showMessage(sprite.x, sprite.y, "不能使用！");
                     return;
                 }
                 this.soilInit(solid);
                 break;
             case 6: // 收获
-                if(!solid.crops || !solid.crops.finish){
+                if (!solid.crops || !solid.crops.finish) {
                     this.showMessage(sprite.x, sprite.y, "不能收获！");
                     return;
                 }
                 var sid = solid.crops.sid;
                 var harvest_num = config.crops[sid].harvest_num;
-                for(var i=0; i<config.bags.length; i++){
-                    if(sid == config.bags[i].sid){
+                for (var i = 0; i < config.bags.length; i++) {
+                    if (sid == config.bags[i].sid) {
                         config.bags[i].num += harvest_num;
                         break;
                     }
                 }
                 solid.crops.finish.kill();
                 var cinfo = config.crops[solid.crops.sid];
-                this.showMessage(solid.crops.x, solid.crops.y+50, "获得"+cinfo.name+"*"+cinfo.harvest_num);
+                this.showMessage(solid.crops.x, solid.crops.y + 50, "获得" + cinfo.name + "*" + cinfo.harvest_num);
                 this.soilChange(sprite.sid, 2);
                 // 枯萎植物
-                var temp = game.add.sprite(sprite.x , sprite.y-20 , "fade");
+                var temp = game.add.sprite(sprite.x, sprite.y - 20, "fade");
                 temp.sid = 0;
                 solid.crops.kill();
                 solid.crops = temp;
@@ -685,7 +694,7 @@ function Main() {
 
     // 生长
     this.rowthProcess = function () {
-        for(var i=0; i<solidGroup.length; i++){
+        for (var i = 0; i < solidGroup.length; i++) {
             var solid = solidGroup[i];
             if (solid.crops && solid.crops.sid) {
                 var nowCrops = config.crops[solid.crops.sid];
@@ -711,29 +720,29 @@ function Main() {
                     solid.crops.growTime += 1;
                     var width = 100 * (solid.crops.growTime / time);
                     solid.process2.width = width;
-                    if(solid.crops.level == (stepNum - 1) && solid.crops.growTime == time){
+                    if (solid.crops.level == (stepNum - 1) && solid.crops.growTime == time) {
                         var icon = config.crops[solid.crops.sid].icon;
-                        var temp = game.add.sprite(solid.soil.x+60, solid.soil.y-20, icon);
+                        var temp = game.add.sprite(solid.soil.x + 60, solid.soil.y - 20, icon);
                         temp.sid = i;
                         // temp.inputEnabled = true;
                         // temp.input.useHandCursor = true;
                         temp.scale.setTo(1.5, 1.5);
                         // temp.events.onInputDown.add(objThis.crapsFinishClick, this);
                         solid.crops.finish = temp;
-                        var tween = game.add.tween(temp).to( { y: solid.soil.y-40 }, 1000, "Linear", true);
+                        var tween = game.add.tween(temp).to({ y: solid.soil.y - 40 }, 1000, "Linear", true);
                         // 重复10次，每次重复时延时1s
                         tween.repeat(50, 200);
 
                     }
                 }
-        }
+            }
 
-    }
+        }
     }
 
     // 点击工具栏
     this.toolsClick = function (tools) {
-        if(saleDetail){
+        if (saleDetail) {
             saleDetail.kill();
         }
         if (box.visible && nowTools == tools.tid) {
@@ -805,7 +814,7 @@ function Main() {
     this.refreshDisplay = function (sow, type) {
         boxInfo.removeAll();
 
-        var ifont = {fontSize: '8px', fill: '#f00'};
+        var ifont = { fontSize: '8px', fill: '#f00' };
         var n = 0;
         for (var i = 0; i < sow.length; i++) {
             var icon = config.crops[sow[i].sid].icon;
@@ -820,10 +829,10 @@ function Main() {
             temp.inputEnabled = true;
             temp.input.useHandCursor = true;
             temp.scale.setTo(0.35, 0.6);
-            if(type == 1){
+            if (type == 1) {
                 temp.events.onInputDown.add(this.chooseCropsClick, this);
             }
-            else{
+            else {
                 temp.events.onInputDown.add(this.chooseSeedClick, this);
             }
             boxInfo.add(temp);
@@ -845,35 +854,35 @@ function Main() {
     }
 
     // 消息提示
-    this.showMessage = function(x, y, msg, func) {
+    this.showMessage = function (x, y, msg, func) {
         var x = x + 50;
         var y = y + 50;
-        var text = game.add.text(x, y, msg,{fontSize:'20px',fill:'#00f'});
+        var text = game.add.text(x, y, msg, { fontSize: '20px', fill: '#00f' });
         text.alpha = 0; // 不透明度
-        game.add.tween(text).to({alpha:1,y:y-50},3000,"Linear",true).onComplete.add(function(){
+        game.add.tween(text).to({ alpha: 1, y: y - 50 }, 3000, "Linear", true).onComplete.add(function () {
             text.kill();
-            if(func){ func(); }
+            if (func) { func(); }
         });
     }
 
     // 商店种子点击事件
-    this.storeSeedClick = function(seed) {
-        if(saleDetail){
+    this.storeSeedClick = function (seed) {
+        if (saleDetail) {
             saleDetail.kill();
         }
         var seedInfo = config.crops[seed.sid];
-        var row = parseInt((seed.sid-1) / 5);
-        var col = (seed.sid-1) % 5;
+        var row = parseInt((seed.sid - 1) / 5);
+        var col = (seed.sid - 1) % 5;
         saleDetail = game.add.sprite(seed.x + 205 + col * 50, seed.y + 100 + row * 34, "shallowGreen");
         // saleDetail.scale.setTo(1, 1);
-        var ifont = {fontSize: '15px', fill: '#f00'};
-        var temp = game.add.text(10, 5, "名称："+seedInfo.name, ifont);
+        var ifont = { fontSize: '15px', fill: '#f00' };
+        var temp = game.add.text(10, 5, "名称：" + seedInfo.name, ifont);
         saleDetail.addChild(temp);
-        var temp = game.add.text(10, 20, "价格："+seedInfo.seed_price, ifont);
+        var temp = game.add.text(10, 20, "价格：" + seedInfo.seed_price, ifont);
         saleDetail.addChild(temp);
-        var temp = game.add.text(10, 35, "收获数："+seedInfo.harvest_num, ifont);
+        var temp = game.add.text(10, 35, "收获数：" + seedInfo.harvest_num, ifont);
         saleDetail.addChild(temp);
-        var temp = game.add.text(10, 50, "售价："+seedInfo.sale_price, ifont);
+        var temp = game.add.text(10, 50, "售价：" + seedInfo.sale_price, ifont);
         saleDetail.addChild(temp);
 
         var button = game.add.button(30, 70, 'buy', this.buySeed, this);
@@ -884,8 +893,8 @@ function Main() {
     }
 
     // 购买种子
-    this.buySeed = function(seed) {
-        if(saleDetail){
+    this.buySeed = function (seed) {
+        if (saleDetail) {
             saleDetail.kill();
         }
 
@@ -896,52 +905,52 @@ function Main() {
         var info = game.add.sprite(400, 200, "grasstile");
         var price = config.crops[seed.sid].seed_price;
         var num = 1;
-        var ifont = {fontSize: '20px', fill: '#f00'};
-        var temp = game.add.text(80, 60, "单价："+price, ifont);
+        var ifont = { fontSize: '20px', fill: '#f00' };
+        var temp = game.add.text(80, 60, "单价：" + price, ifont);
         info.addChild(temp);
         var numText = game.add.text(125, 110, num, ifont);
         info.addChild(numText);
         var temp = game.add.text(50, 155, "所需金额：", ifont);
         info.addChild(temp);
-        var needNum = num*price;
+        var needNum = num * price;
         var needText = game.add.text(150, 155, needNum, ifont);
         info.addChild(needText);
-        var temp = game.add.button(200, -10, 'icon_x', function(){
+        var temp = game.add.button(200, -10, 'icon_x', function () {
             saleDetail.kill();
         }, this);
         info.addChild(temp);
-        var temp = game.add.button(70, 100, 'icon_jian', function(){
-            if(num > 1){
-                num --;
+        var temp = game.add.button(70, 100, 'icon_jian', function () {
+            if (num > 1) {
+                num--;
                 numText.text = num;
-                needNum = num*price;
+                needNum = num * price;
                 needText.text = needNum;
             }
         }, this);
         temp.scale.setTo(0.6, 0.6);
         info.addChild(temp);
-        var temp = game.add.button(160, 100, 'icon_jia', function(){
-            num ++;
+        var temp = game.add.button(160, 100, 'icon_jia', function () {
+            num++;
             numText.text = num;
-            needNum = num*price;
+            needNum = num * price;
             needText.text = needNum;
         }, this);
         temp.scale.setTo(0.6, 0.6);
         info.addChild(temp);
-        var temp = game.add.button(80, 190, 'icon_buy', function(){
-            if(money < needNum){
+        var temp = game.add.button(80, 190, 'icon_buy', function () {
+            if (money < needNum) {
                 this.showMessage(450, 270, "金币不够！");
                 return;
             }
             money = money - needNum;
             moneyText.text = money;
-            for(var i=0; i<config.sow.length; i++){
-                if(seed.sid == config.sow[i].sid){
+            for (var i = 0; i < config.sow.length; i++) {
+                if (seed.sid == config.sow[i].sid) {
                     config.sow[i].num += num;
                     break;
                 }
             }
-            this.showMessage(450, 270, "购买成功！", function(){
+            this.showMessage(450, 270, "购买成功！", function () {
                 saleDetail.kill();
             });
         }, this);
@@ -954,17 +963,17 @@ function Main() {
      *  仓库物品点击事件
      * @param crops
      */
-    this.chooseCropsClick = function(crops) {
-        if(box){ box.kill(); }
-        if(saleDetail){ saleDetail.kill(); }
+    this.chooseCropsClick = function (crops) {
+        if (box) { box.kill(); }
+        if (saleDetail) { saleDetail.kill(); }
 
         saleDetail = game.add.sprite(0, 0, "bg_gray");
         saleDetail.inputEnabled = true;
         saleDetail.alpha = 0.8;
 
         var cropsInfo; // 物品信息
-        for(var i=0; i<config.bags.length; i++){
-            if(crops.sid == config.bags[i].sid){
+        for (var i = 0; i < config.bags.length; i++) {
+            if (crops.sid == config.bags[i].sid) {
                 cropsInfo = config.bags[i];
                 break;
             }
@@ -973,45 +982,45 @@ function Main() {
         var info = game.add.sprite(400, 200, "grasstile");
         var price = config.crops[crops.sid].sale_price;
         var num = 1;
-        var ifont = {fontSize: '20px', fill: '#f00'};
-        var temp = game.add.text(80, 60, "售价："+price, ifont);
+        var ifont = { fontSize: '20px', fill: '#f00' };
+        var temp = game.add.text(80, 60, "售价：" + price, ifont);
         info.addChild(temp);
         var numText = game.add.text(125, 110, num, ifont);
         info.addChild(numText);
         var temp = game.add.text(50, 155, "出售获额：", ifont);
         info.addChild(temp);
-        var needNum = num*price;
+        var needNum = num * price;
         var needText = game.add.text(150, 155, needNum, ifont);
         info.addChild(needText);
-        var temp = game.add.button(200, -10, 'icon_x', function(){
+        var temp = game.add.button(200, -10, 'icon_x', function () {
             saleDetail.kill();
         }, this);
         info.addChild(temp);
-        var temp = game.add.button(70, 100, 'icon_jian', function(){
-            if(num > 1){
-                num --;
+        var temp = game.add.button(70, 100, 'icon_jian', function () {
+            if (num > 1) {
+                num--;
                 numText.text = num;
-                needNum = num*price;
+                needNum = num * price;
                 needText.text = needNum;
             }
         }, this);
         temp.scale.setTo(0.6, 0.6);
         info.addChild(temp);
-        var temp = game.add.button(160, 100, 'icon_jia', function(){
-           if(num < cropsInfo.num){
-               num ++;
-               numText.text = num;
-               needNum = num*price;
-               needText.text = needNum;
-           }
+        var temp = game.add.button(160, 100, 'icon_jia', function () {
+            if (num < cropsInfo.num) {
+                num++;
+                numText.text = num;
+                needNum = num * price;
+                needText.text = needNum;
+            }
         }, this);
         temp.scale.setTo(0.6, 0.6);
         info.addChild(temp);
-        var temp = game.add.button(80, 190, 'icon_sale', function(){
+        var temp = game.add.button(80, 190, 'icon_sale', function () {
             money = money + needNum;
             moneyText.text = money;
             cropsInfo.num -= num;
-            this.showMessage(450, 270, "出售成功！", function(){
+            this.showMessage(450, 270, "出售成功！", function () {
                 saleDetail.kill();
             });
             temp.kill();
@@ -1026,7 +1035,7 @@ function Main() {
      *  土地初始化
      * @param soil
      */
-    this.soilInit = function(soil){
+    this.soilInit = function (soil) {
         soil.crops.kill();
         soil.crops = null;
         soil.process1.kill();
@@ -1038,9 +1047,9 @@ function Main() {
     /**
      *  改变土地
      */
-    this.soilChange = function(index, status){
+    this.soilChange = function (index, status) {
         var fsoli = solidGroup[index].soil;
-        var temp = game.add.sprite(fsoli.x, fsoli.y, 'soil_'+status);
+        var temp = game.add.sprite(fsoli.x, fsoli.y, 'soil_' + status);
         temp.inputEnabled = true;
         temp.events.onInputDown.add(this.solidClicked, this);
         temp.sid = index;
@@ -1056,9 +1065,9 @@ function Main() {
  *  改变鼠标指针图标
  * @param type
  */
-function changeCursor(type){
+function changeCursor(type) {
     var game = document.getElementById("game");
-    switch(type){
+    switch (type) {
         case 1:
             game.style.cursor = "url(assets/seed.ico),auto";
             break;
