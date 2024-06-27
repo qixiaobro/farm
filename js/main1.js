@@ -1,8 +1,6 @@
 var game;
 window.onload = function () {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    game = new Phaser.Game(height, width, Phaser.CANVAS, 'game', null, true, true);
+    game = new Phaser.Game(1024, 768, Phaser.CANVAS, 'game');
     game.state.add("boot", Boot);
     game.state.add("loading", Loading);
     game.state.add("main", Main);
@@ -16,29 +14,16 @@ function Boot() {
         game.input.maxPointers = 2;
     };
     this.create = function () {
-        // 设置缩放模式和对齐方式
-        game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+        game.state.start('loading');
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
-        game.scale.refresh();
-
-        // 设置 resize 回调
-        game.scale.setResizeCallback(this.gameResized, this);
-
-        // 启动加载状态
-        game.state.start('loading');
-    };
-
-    this.gameResized = function (scale, parentBounds) {
-        // 调整游戏大小
-        game.scale.setGameSize(parentBounds.width, parentBounds.height);
-
-        // 调整摄像机大小
-        game.camera.setSize(parentBounds.width, parentBounds.height);
-
-        // 可能需要调整其他游戏元素
-        // ...
-    };
+        game.scale.setScreenSize(true);
+    }
+    this.gameResized = function () {
+        game.scale.setGameSize(1024, 768); // 根据需要设置游戏的逻辑尺寸
+        game.camera.setSize(game.scale.gameSize.width, game.scale.gameSize.height);
+    }
 }
 
 // 加载游戏资源
@@ -519,14 +504,6 @@ function Main() {
     var moneyText;
     var objThis;
 
-    function resizeUI() {
-        var scaleFactor = game.width / 1024; // 假设原始设计宽度为1024
-        box.scale.setTo(3.5 * scaleFactor, 2 * scaleFactor);
-        box.x = game.width / 2 - box.width / 2;
-        box.y = game.height / 2 - box.height / 2;
-        // 调整其他UI元素...
-    }    
-
     this.create = function () {
         objThis = this;
         game.physics.startSystem(Phaser.Physics.ARCADE);// 开启物理引擎
@@ -584,9 +561,6 @@ function Main() {
         }
         boxInfo = game.add.group();
         box.visible = false;
-
-        resizeUI();
-        game.scale.onSizeChange.add(resizeUI, this);
 
     }
 
