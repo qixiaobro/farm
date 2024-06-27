@@ -1,6 +1,6 @@
 var game;
 window.onload = function () {
-    game = new Phaser.Game(1024, 768, Phaser.CANVAS, 'game');
+    game = new Phaser.Game(1024, 768, Phaser.CANVAS, 'game', null, true, true, Phaser.LANDSCAPE);
     game.state.add("boot", Boot);
     game.state.add("loading", Loading);
     game.state.add("main", Main);
@@ -18,7 +18,7 @@ function Boot() {
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
-        game.scale.setScreenSize(true);
+        game.scale.refresh();
     }
     this.gameResized = function () {
         game.scale.setGameSize(1024, 768); // 根据需要设置游戏的逻辑尺寸
